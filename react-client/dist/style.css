@@ -1,0 +1,17 @@
+html {
+  font-family: Arial, sans-serif;
+}
+
+.component {
+  border: 1px solid gray;
+  padding: 10px;
+  margin: 10px;
+}
+
+.direction, .line {
+  display: inline-block;
+}
+
+.station-label, .station-marker {
+  display: inline-block;
+}
