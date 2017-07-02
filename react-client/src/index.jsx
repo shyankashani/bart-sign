@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import Directions from './components/Directions.jsx';
+import Line from './components/Line.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class App extends React.Component {
   render () {
     return (<div className="component">
       <h1>App</h1>
-      <Directions />
+      <Line />
     </div>)
   }
 }

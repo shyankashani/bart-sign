@@ -12,8 +12,6 @@ class Station extends React.Component {
   render() {
     return (
       <div className="component station">
-        <h4>Station</h4>
-        <StationLabel />
         <StationMarker />
       </div>
     )
