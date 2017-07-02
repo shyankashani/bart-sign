@@ -12,18 +12,20 @@ class StationMarker extends React.Component {
     var canvas = ReactDOM.findDOMNode(this.refs.canvas);
     var context = canvas.getContext('2d');
 
+
+
     context.beginPath();
-    context.lineWidth = 6;
+    context.lineWidth = 4;
     context.strokeStyle = 'black';
-    context.lineTo(50, 0);
-    context.lineTo(50, 100);
+    context.lineTo(40, 0);
+    context.lineTo(40, 80);
     context.stroke();
     context.closePath()
 
     context.beginPath();
-    context.lineWidth = 6;
+    context.lineWidth = 4;
     context.fillStyle = 'white';
-    context.arc(50, 50, 15, 15, Math.PI * 2, true);
+    context.arc(40, 40, 15, 15, Math.PI * 2, true);
     context.fill()
     context.stroke();
     context.closePath();
@@ -33,8 +35,8 @@ class StationMarker extends React.Component {
     return (
       <div className="component station-marker">
         <canvas
-          width="100px"
-          height="100px"
+          width="80px"
+          height="80px"
           ref="canvas"
         />
       </div>
