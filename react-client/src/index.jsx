@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Dropdown from './components/Dropdown.jsx';
-import Route from './components/Route.jsx';
+import StationsDropdown from './components/StationsDropdown.jsx';
+import PlatformsDropdown from './components/PlatformsDropdown.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class App extends React.Component {
     this.state = {
       stations: [],
       station: undefined,
+      platforms: [],
       stationInfo: undefined
     }
   }
@@ -24,9 +25,15 @@ class App extends React.Component {
                       console.log('fetchStations', result.data) })
   }
 
+  fetchPlatforms(station) {
+    axios.get('/platforms', { params: { station: station } })
+    .then(result => { this.setState({ platforms: result.data, station: station });
+                      console.log('fetchPlatforms', result.data)})
+  }
+
   fetchStationInfo(station) {
     axios.get('/stationInfo', { params: { station: station } })
-    .then(result => { this.setState({ stationInfo: result, station: station });
+    .then(result => { this.setState({ stationInfo: result.data, station: station });
                       console.log('fetchStationInfo', result.data)})
   }
 
@@ -39,13 +46,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Dropdown
+        <StationsDropdown
           stations={this.state.stations}
           station={this.state.station}
-          fetchStationInfo={this.fetchStationInfo.bind(this)}
+          fetchPlatforms={this.fetchPlatforms.bind(this)}
         />
-      <Route
-          stations={this.state.stations}
+        <PlatformsDropdown
+          platforms={this.state.platforms}
         />
       </div>
     )

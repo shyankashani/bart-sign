@@ -22,6 +22,21 @@ app.get('/stations', function(req, res) {
   })
 });
 
+app.get('/platforms', function(req, res) {
+  let orig = req.query.station;
+  axios.get(api + 'stn.aspx?cmd=stninfo&orig=' + orig + key)
+  .then(result => { return parse(result.data) })
+  .then(result => {
+    let northPlatforms = result.root.stations[0].station[0].north_platforms[0].platform.map(platform => {
+      return { abbr: platform + 'N', name: platform + ' Northbound' }
+    });
+    let southPlatforms = result.root.stations[0].station[0].south_platforms[0].platform.map(platform => {
+      return { abbr: platform + 'S', name: platform + ' Southbound' }
+    });;
+    res.send(northPlatforms.concat(southPlatforms));
+  })
+});
+
 app.get('/stationInfo', function(req, res) {
   let orig = req.query.station;
   axios.get(api + 'stn.aspx?cmd=stninfo&orig=' + orig + key)
