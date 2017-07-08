@@ -9,26 +9,40 @@ class App extends React.Component {
     super(props);
     this.state = {
       stations: [],
-
+      station: undefined,
+      stationInfo: undefined
     }
   }
 
   componentDidMount() {
+    this.fetchStations();
+  }
+
+  fetchStations() {
     axios.get('/stations')
-    .then(result => { this.setState({ stations: result.data }) })
+    .then(result => { this.setState({ stations: result.data })
+                      console.log('fetchStations', result.data) })
+  }
+
+  fetchStationInfo(station) {
+    axios.get('/stationInfo', { params: { station: station } })
+    .then(result => { this.setState({ stationInfo: result, station: station });
+                      console.log('fetchStationInfo', result.data)})
   }
 
   fetchRoute(route) {
     axios.get('/route')
-    .then(result => { console.log(result.data); this.setState({ route: result.data }) })
+    .then(result => { this.setState({ route: result.data });
+                      console.log('fetchRoute', result.data) })
   }
 
   render() {
     return (
-      <div className="component">
+      <div>
         <Dropdown
           stations={this.state.stations}
-          fetchRoute={(route) => this.fetchRoute(route)}
+          station={this.state.station}
+          fetchStationInfo={this.fetchStationInfo.bind(this)}
         />
       <Route
           stations={this.state.stations}
