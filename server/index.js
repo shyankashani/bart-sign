@@ -27,14 +27,32 @@ app.get('/platforms', function(req, res) {
   axios.get(api + 'stn.aspx?cmd=stninfo&orig=' + orig + key)
   .then(result => { return parse(result.data) })
   .then(result => {
+    let northRoutes = result.root.stations[0].station[0].north_routes[0].route.map(route => {
+      return route.split(' ').pop();
+    })
     let northPlatforms = result.root.stations[0].station[0].north_platforms[0].platform.map(platform => {
-      return { abbr: platform + 'N', name: platform + ' Northbound' }
+      return { abbr: platform + 'N', name: platform + ' Northbound', routes: northRoutes }
     });
+    let southRoutes = result.root.stations[0].station[0].south_routes[0].route.map(route => {
+      return route.split(' ').pop();
+    })
     let southPlatforms = result.root.stations[0].station[0].south_platforms[0].platform.map(platform => {
-      return { abbr: platform + 'S', name: platform + ' Southbound' }
+      return { abbr: platform + 'S', name: platform + ' Southbound', routes: southRoutes }
     });;
     res.send(northPlatforms.concat(southPlatforms));
   })
+});
+
+app.get('/routes', function(req, res) {
+  let routes = req.query.routes.split(',');
+  let response = [];
+  Promise.all(
+    routes.map(route => {
+      return axios.get(api + 'route.aspx?cmd=routeinfo&route=' + route + key)
+      .then(result => { return parse(result.data) })
+      .then(result => { return result.root.routes[0].route[0] })
+    })
+  ).then(result => { res.send(result) })
 });
 
 app.get('/stationInfo', function(req, res) {

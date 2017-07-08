@@ -11,7 +11,7 @@ class App extends React.Component {
       stations: [],
       station: undefined,
       platforms: [],
-      stationInfo: undefined
+      platform: undefined
     }
   }
 
@@ -31,6 +31,11 @@ class App extends React.Component {
                       console.log('fetchPlatforms', result.data)})
   }
 
+  fetchRoutes(routes) {
+    axios.get('/routes', { params: { routes: routes } })
+    .then(result => { console.log('fetchRoutes', result.data) })
+  }
+
   fetchStationInfo(station) {
     axios.get('/stationInfo', { params: { station: station } })
     .then(result => { this.setState({ stationInfo: result.data, station: station });
@@ -40,7 +45,7 @@ class App extends React.Component {
   fetchRoute(route) {
     axios.get('/route')
     .then(result => { this.setState({ route: result.data });
-                      console.log('fetchRoute', result.data) })
+                      console.log('fetchRoute', result) })
   }
 
   render() {
@@ -53,6 +58,8 @@ class App extends React.Component {
         />
         <PlatformsDropdown
           platforms={this.state.platforms}
+          platform={this.state.platform}
+          fetchRoutes={this.fetchRoutes.bind(this)}
         />
       </div>
     )

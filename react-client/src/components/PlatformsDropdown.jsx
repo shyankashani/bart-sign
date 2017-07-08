@@ -7,15 +7,21 @@ class PlatformsDropdown extends React.Component {
     this.state = {};
   }
 
+  selectPlatform(event) {
+    this.props.fetchRoutes(event.target.value)
+  }
+
   render() {
     return (
       <select
         value={this.props.platform}
+        onChange={this.selectPlatform.bind(this)}
       >
         {this.props.platforms.map(platform => {
           let abbr = platform.abbr;
           let name = platform.name;
-          return <option key={abbr} value={abbr}>{name}</option>
+          let routes = platform.routes.join();
+          return <option key={abbr} value={routes}>{name}</option>
         })}
       </select>
     )
