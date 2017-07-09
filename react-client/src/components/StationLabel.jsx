@@ -10,7 +10,7 @@ class StationLabel extends React.Component {
   render() {
     return (
       <div className="component station-label">
-        <h4>Station Label</h4>
+        <h4>{this.props.station}</h4>
       </div>
     )
   }

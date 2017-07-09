@@ -13,6 +13,7 @@ class Station extends React.Component {
     return (
       <div className="component station">
         <StationMarker />
+        <StationLabel station={this.props.station}/>
       </div>
     )
   }

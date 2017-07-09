@@ -20,7 +20,8 @@ class PlatformsDropdown extends React.Component {
         {this.props.platforms.map(platform => {
           let abbr = platform.abbr;
           let name = platform.name;
-          let routes = platform.routes.join();
+          let direction = platform.direction;
+          let routes = platform.routes.join() + ',' + platform.direction;
           return <option key={abbr} value={routes}>{name}</option>
         })}
       </select>

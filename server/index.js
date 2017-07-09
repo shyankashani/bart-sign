@@ -27,32 +27,58 @@ app.get('/platforms', function(req, res) {
   axios.get(api + 'stn.aspx?cmd=stninfo&orig=' + orig + key)
   .then(result => { return parse(result.data) })
   .then(result => {
-    let northRoutes = result.root.stations[0].station[0].north_routes[0].route.map(route => {
-      return route.split(' ').pop();
-    })
-    let northPlatforms = result.root.stations[0].station[0].north_platforms[0].platform.map(platform => {
-      return { abbr: platform + 'N', name: platform + ' Northbound', routes: northRoutes }
+
+    let nr = result.root.stations[0].station[0].north_routes[0].route;
+    let northRoutes = nr.map(route => { return route.split(' ').pop() });
+
+    let np = result.root.stations[0].station[0].north_platforms[0].platform;
+    let northPlatforms = np.map(platform => {
+      return {
+        abbr: platform + 'N',
+        name: platform + ' Northbound',
+        direction: 'N',
+        routes: northRoutes
+      }
     });
-    let southRoutes = result.root.stations[0].station[0].south_routes[0].route.map(route => {
-      return route.split(' ').pop();
-    })
-    let southPlatforms = result.root.stations[0].station[0].south_platforms[0].platform.map(platform => {
-      return { abbr: platform + 'S', name: platform + ' Southbound', routes: southRoutes }
-    });;
+
+    let sr = result.root.stations[0].station[0].south_routes[0].route;
+    let southRoutes = sr.map(route => { return route.split(' ').pop() });
+
+    let sp = result.root.stations[0].station[0].south_platforms[0].platform;
+    let southPlatforms = sp.map(platform => {
+      return {
+        abbr: platform + 'S',
+        name: platform + ' Southbound',
+        direction: 'S',
+        routes: southRoutes
+      }
+    });
+
+    let platforms =
     res.send(northPlatforms.concat(southPlatforms));
   })
 });
 
 app.get('/routes', function(req, res) {
   let routes = req.query.routes.split(',');
-  let response = [];
+  let station = req.query.station;
+  let direction = routes.pop();
   Promise.all(
     routes.map(route => {
       return axios.get(api + 'route.aspx?cmd=routeinfo&route=' + route + key)
       .then(result => { return parse(result.data) })
       .then(result => { return result.root.routes[0].route[0] })
     })
-  ).then(result => { res.send(result) })
+  ).then(result => {
+    let routes = result.map(route => {
+      let stations = route.config[0].station;
+      for (let i = 0; i < stations.length; i++) {
+        if (stations[i] === station) { route.config[0].station = stations.splice(i); break; }
+      }
+      return route;
+    })
+    res.send(routes);
+  })
 });
 
 app.get('/stationInfo', function(req, res) {
@@ -62,15 +88,6 @@ app.get('/stationInfo', function(req, res) {
   .then(result => {
     let stationInfo = result.root.stations[0].station[0];
     res.send(stationInfo)
-  })
-});
-
-app.get('/route', function(req, res) {
-  axios.get(api + 'route.aspx?cmd=routeinfo&route=6' + key)
-  .then(result => { return parse(result.data) })
-  .then(result => {
-    let route = result.root.routes[0].route[0];
-    res.send(route);
   })
 });
 

@@ -11,9 +11,8 @@ class Route extends React.Component {
   render() {
     return (
       <div className="component route">
-        {this.props.stations.map(station => {
-          let key = station.abbr[0];
-          return <Station key={key} station={this.props.station} />
+        {this.props.route.config[0].station.map(station => {
+          return <Station key={station} station={station} />
         })}
       </div>
     )
