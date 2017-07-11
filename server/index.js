@@ -54,7 +54,6 @@ app.get('/platforms', function(req, res) {
       }
     });
 
-    let platforms =
     res.send(northPlatforms.concat(southPlatforms));
   })
 });

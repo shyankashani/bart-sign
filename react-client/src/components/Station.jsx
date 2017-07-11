@@ -12,7 +12,7 @@ class Station extends React.Component {
   render() {
     return (
       <div className="component station">
-        <StationMarker />
+        <StationMarker station={this.props.station}/>
         <StationLabel station={this.props.station}/>
       </div>
     )

@@ -62,7 +62,8 @@ html * {
 }
 
 .station-label, .station-marker {
-  display: block;
+  display: inline-block;
+	vertical-align: middle;
 }
 
 .route {
