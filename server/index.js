@@ -1,5 +1,4 @@
 var express = require('express');
-var bodyParser = require('body-parser');
 var axios = require('axios');
 var parse = require('xml2js-es6-promise');
 var api = 'http://api.bart.gov/api/';

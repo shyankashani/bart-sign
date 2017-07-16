@@ -7,15 +7,15 @@ class StationsDropdown extends React.Component {
     this.state = {};
   }
 
-  selectStation(event) {
-    this.props.fetchPlatforms(event.target.value)
+  componentDidMount() {
+    this.props.fetchPlatforms(this.props.station)
   }
 
   render() {
     return (
       <select
         value={this.props.station}
-        onChange={this.selectStation.bind(this)}
+        onChange={this.props.selectStation.bind(this)}
       >
         {this.props.stations.map(station => {
           let abbr = station.abbr[0];
