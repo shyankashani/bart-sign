@@ -1,6 +1,6 @@
 import React from 'react';
 
-class StationsDropdown extends React.Component {
+class SelectStation extends React.Component {
 
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ class StationsDropdown extends React.Component {
     return (
       <select
         value={this.props.station}
-        onChange={this.props.selectStation.bind(this)}
+        onChange={event => this.props.fetchPlatforms(event.target.value)}
       >
         {this.props.stations.map(station => {
           let abbr = station.abbr[0];
@@ -28,4 +28,4 @@ class StationsDropdown extends React.Component {
 
 }
 
-export default StationsDropdown;
+export default SelectStation;

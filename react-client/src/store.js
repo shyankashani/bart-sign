@@ -1,7 +1,16 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux';
-import fetchReducer from './reducers/fetchReducer.js';
-import selectReducer from './reducers/selectReducer.js';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import reducers from './reducers';
 
-export default createStore(combineReducers({fetchReducer, selectReducer}), applyMiddleware(thunk, logger));
+let combinedReducers = combineReducers({
+  stationsAll: reducers.stationsAllReducer,
+  stationsSelected: reducers.stationsSelectedReducer,
+  platformsAll: reducers.platformsAllReducer,
+  platformsSelected: reducers.platformsSelectedReducer,
+  routesAll: reducers.routesAllReducer,
+});
+
+let appliedMiddleware = applyMiddleware(thunk, logger)
+
+export default createStore(combinedReducers, appliedMiddleware);

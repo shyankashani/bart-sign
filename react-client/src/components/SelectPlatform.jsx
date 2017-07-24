@@ -1,21 +1,18 @@
 import React from 'react';
 
-class PlatformsDropdown extends React.Component {
+class SelectPlatform extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  componentDidMount() {
-    this.props.fetchRoutes(this.props.platform.routes, this.props.station)
-  }
 
   render() {
     return (
       <select
-        value={this.props.platform}
-        onChange={this.props.selectPlatform.bind(this)}
+        value={this.props.routes}
+        onChange={event => this.props.fetchRoutes(event.target.value, this.props.station)}
       >
         {this.props.platforms.map(platform => {
           let abbr = platform.abbr;
@@ -29,4 +26,4 @@ class PlatformsDropdown extends React.Component {
   }
 }
 
-export default PlatformsDropdown;
+export default SelectPlatform;

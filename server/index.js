@@ -21,14 +21,15 @@ app.get('/stations', function(req, res) {
   })
 });
 
-app.get('/platforms', function(req, res) {
+app.get('/stationInfo', function(req, res) {
   let orig = req.query.station;
   axios.get(api + 'stn.aspx?cmd=stninfo&orig=' + orig + key)
   .then(result => { return parse(result.data) })
   .then(result => {
 
     let nr = result.root.stations[0].station[0].north_routes[0].route;
-    let northRoutes = nr.map(route => { return route.split(' ').pop() });
+    let northRoutes = orig + ',' + nr.map(route => { return route.split(' ').pop() }).join(',') + ',N';
+    console.log('northRoutes', northRoutes);
 
     let np = result.root.stations[0].station[0].north_platforms[0].platform;
     let northPlatforms = np.map(platform => {
@@ -41,7 +42,8 @@ app.get('/platforms', function(req, res) {
     });
 
     let sr = result.root.stations[0].station[0].south_routes[0].route;
-    let southRoutes = sr.map(route => { return route.split(' ').pop() });
+    let southRoutes = orig + ',' + sr.map(route => { return route.split(' ').pop() }).join(',') + ',S';
+    console.log('southRoutes', southRoutes);
 
     let sp = result.root.stations[0].station[0].south_platforms[0].platform;
     let southPlatforms = sp.map(platform => {
