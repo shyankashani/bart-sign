@@ -16,43 +16,69 @@ app.get('/stations', function(req, res) {
   })
 });
 
-app.get('/platforms', function(req, res) {
-  let orig = req.query.station;
-  axios.get(api + 'stn.aspx?cmd=stninfo&orig=' + orig + key)
+app.get('/platforms/:station', function(req, res) {
+  axios.get(`${api}stn.aspx?cmd=stninfo&orig=${req.params.station}${key}`)
   .then(result => { return parse(result.data) })
   .then(result => {
 
-    let nr = result.root.stations[0].station[0].north_routes[0].route;
-    let northRoutes = orig + ',' + nr.map(route => { return route.split(' ').pop() }).join(',') + ',N';
-    console.log('northRoutes', northRoutes);
-
-    let np = result.root.stations[0].station[0].north_platforms[0].platform;
-    let northPlatforms = np.map(platform => {
+    let northPlatforms = result.root.stations[0].station[0].north_platforms[0].platform.map(platform => {
       return {
-        abbr: platform + 'N',
-        name: platform + ' Northbound',
-        direction: 'N',
-        routes: northRoutes
+        name: platform,
+        rtes: result.root.stations[0].station[0].north_routes[0].route.map(route => { return { name: route.split(' ').pop(), drcn: 'N' }})
       }
     });
 
-    let sr = result.root.stations[0].station[0].south_routes[0].route;
-    let southRoutes = orig + ',' + sr.map(route => { return route.split(' ').pop() }).join(',') + ',S';
-    console.log('southRoutes', southRoutes);
-
-    let sp = result.root.stations[0].station[0].south_platforms[0].platform;
-    let southPlatforms = sp.map(platform => {
+    let southPlatforms = result.root.stations[0].station[0].south_platforms[0].platform.map(platform => {
       return {
-        abbr: platform + 'S',
-        name: platform + ' Southbound',
-        direction: 'S',
-        routes: southRoutes
+        name: platform,
+        rtes: result.root.stations[0].station[0].south_routes[0].route.map(route => { return { name: route.split(' ').pop(), drcn: 'S' }})
       }
     });
 
-    res.send(northPlatforms.concat(southPlatforms));
+    let allPlatforms = northPlatforms.concat(southPlatforms);
+
+    res.send(allPlatforms);
+
   })
-});
+})
+
+// app.get('/platforms', function(req, res) {
+//   let orig = req.query.station;
+//   axios.get(api + 'stn.aspx?cmd=stninfo&orig=' + orig + key)
+//   .then(result => { return parse(result.data) })
+//   .then(result => {
+//
+//     let nr = result.root.stations[0].station[0].north_routes[0].route;
+//     let northRoutes = orig + ',' + nr.map(route => { return route.split(' ').pop() }).join(',') + ',N';
+//     console.log('northRoutes', northRoutes);
+//
+//     let np = result.root.stations[0].station[0].north_platforms[0].platform;
+//     let northPlatforms = np.map(platform => {
+//       return {
+//         abbr: platform + 'N',
+//         name: platform + ' Northbound',
+//         direction: 'N',
+//         routes: northRoutes
+//       }
+//     });
+//
+//     let sr = result.root.stations[0].station[0].south_routes[0].route;
+//     let southRoutes = orig + ',' + sr.map(route => { return route.split(' ').pop() }).join(',') + ',S';
+//     console.log('southRoutes', southRoutes);
+//
+//     let sp = result.root.stations[0].station[0].south_platforms[0].platform;
+//     let southPlatforms = sp.map(platform => {
+//       return {
+//         abbr: platform + 'S',
+//         name: platform + ' Southbound',
+//         direction: 'S',
+//         routes: southRoutes
+//       }
+//     });
+//
+//     res.send(northPlatforms.concat(southPlatforms));
+//   })
+// });
 
 app.get('/routes', function(req, res) {
   let routes = req.query.routes.split(',');

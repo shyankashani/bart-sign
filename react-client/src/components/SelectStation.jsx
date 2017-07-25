@@ -1,5 +1,7 @@
 import React from 'react';
 
+
+
 export default class SelectStation extends React.Component {
 
   constructor(props) { super(props); };
@@ -18,7 +20,6 @@ export default class SelectStation extends React.Component {
   };
 
   componentDidMount() {
-    this.props.redux.dispatch.fetchPlatforms('12TH')
   }
 
 

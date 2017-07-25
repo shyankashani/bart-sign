@@ -28,6 +28,13 @@ actions.fetchPlatforms = station => {
   }
 }
 
+// actions.fetchPlatforms = station => {
+//   return {
+//     type: 'SET_STATION',
+//     payload: station
+//   }
+// }
+
 //
 // actions.fetchRoutes = (routes, station) => {
 //   return dispatch => {

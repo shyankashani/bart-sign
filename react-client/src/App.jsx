@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatch: {
       fetchStations: () => { dispatch(actions.fetchStations()) },
-      fetchPlatforms: station => { dispatch(actions.fetchPlatforms()) } 
+      fetchPlatforms: station => { dispatch(actions.fetchPlatforms(station)) } 
     }
   }
 }
