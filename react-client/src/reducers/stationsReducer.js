@@ -1,4 +1,4 @@
-const stationsAllReducer = (state = {}, action) => {
+const stationsReducer = (state = [], action) => {
   switch(action.type) {
     case 'FETCH_STATIONS':
       return action.payload;
@@ -6,4 +6,4 @@ const stationsAllReducer = (state = {}, action) => {
   return state;
 };
 
-module.exports = stationsAllReducer;
+module.exports = stationsReducer;

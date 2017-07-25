@@ -4,10 +4,6 @@ var parse = require('xml2js-es6-promise');
 var api = 'http://api.bart.gov/api/';
 var key = '&key=MW9S-E7SL-26DU-VV8V';
 
-// UNCOMMENT THE DATABASE YOU'D LIKE TO USE
-// var items = require('../database-mysql');
-// var items = require('../database-mongo');
-
 var app = express();
 
 app.use(express.static(__dirname + '/../react-client/dist'));
@@ -16,12 +12,11 @@ app.get('/stations', function(req, res) {
   axios.get(api + 'stn.aspx?cmd=stns' + key)
   .then(result => { return parse(result.data) })
   .then(result => {
-    let stations = result.root.stations[0].station;
-    res.send(stations);
+    res.send(result.root.stations[0].station);
   })
 });
 
-app.get('/stationInfo', function(req, res) {
+app.get('/platforms', function(req, res) {
   let orig = req.query.station;
   axios.get(api + 'stn.aspx?cmd=stninfo&orig=' + orig + key)
   .then(result => { return parse(result.data) })
@@ -91,6 +86,6 @@ app.get('/stationInfo', function(req, res) {
   })
 });
 
-app.listen(3000, function() {
-  console.log('listening on port 3000!');
+app.listen(8080, function() {
+  console.log('listening on port 8080!');
 });

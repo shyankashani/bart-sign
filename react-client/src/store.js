@@ -4,8 +4,8 @@ import logger from 'redux-logger';
 import reducers from './reducers';
 
 let combinedReducers = combineReducers({
-  stationsAll: reducers.stationsAllReducer,
-  stationsSelected: reducers.stationsSelectedReducer,
+  stations: reducers.stationsReducer,
+  station: reducers.stationReducer,
   platformsAll: reducers.platformsAllReducer,
   platformsSelected: reducers.platformsSelectedReducer,
   routesAll: reducers.routesAllReducer,
