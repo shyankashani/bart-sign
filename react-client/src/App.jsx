@@ -16,8 +16,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch: {
-      fetchStations: () => { dispatch(actions.fetchStations()) },
-      fetchPlatforms: station => { dispatch(actions.fetchPlatforms(station)) } 
+      getStations: () => { dispatch(actions.getStations()) },
+      getPlatforms: station => { dispatch(actions.getPlatforms(station)) },
+      getRoutes: (station, platform) => { dispatch(actions.getRoutes(station, platform)) }
     }
   }
 }
@@ -28,12 +29,13 @@ class App extends React.Component {
     return (
       <div>
         <SelectStation redux={this.props} />
+        <SelectPlatform redux={this.props} />
       </div>
     )
   }
 
   componentDidMount() {
-    this.props.dispatch.fetchStations();
+    this.props.dispatch.getStations();
   }
 }
 

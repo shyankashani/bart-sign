@@ -11,7 +11,8 @@ export default class SelectStation extends React.Component {
       <select
         id="selectStation"
         value={this.props.redux.store.station}
-        onChange={() => {this.props.redux.dispatch.fetchPlatforms(document.getElementById("selectStation").value)}}>
+        onChange={() => {this.props.redux.dispatch.getPlatforms(document.getElementById("selectStation").value)}}>
+        <option key="0" value="0">Select a station</option>
         {this.props.redux.store.stations.map(station => {
           return <option key={station.abbr} value={station.abbr}>{station.name}</option>
         })}

@@ -6,11 +6,11 @@ import reducers from './reducers';
 let combinedReducers = combineReducers({
   stations: reducers.stationsReducer,
   station: reducers.stationReducer,
-  platformsAll: reducers.platformsAllReducer,
-  platformsSelected: reducers.platformsSelectedReducer,
-  routesAll: reducers.routesAllReducer,
+  platforms: reducers.platformsReducer,
+  platform: reducers.platformReducer,
+  routes: reducers.routesReducer,
 });
 
-let appliedMiddleware = applyMiddleware(thunk, logger)
+let appliedMiddleware = applyMiddleware(thunk, logger);
 
 export default createStore(combinedReducers, appliedMiddleware);

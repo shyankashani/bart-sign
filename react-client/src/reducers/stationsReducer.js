@@ -1,6 +1,6 @@
 const stationsReducer = (state = [], action) => {
   switch(action.type) {
-    case 'FETCH_STATIONS':
+    case 'GET_STATIONS':
       return action.payload;
   };
   return state;

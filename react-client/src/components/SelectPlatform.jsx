@@ -1,29 +1,24 @@
 import React from 'react';
 
-class SelectPlatform extends React.Component {
+export default class SelectPlatform extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+  constructor(props) { super(props); };
 
   render() {
     return (
       <select
-        value={this.props.routes}
-        onChange={event => this.props.fetchRoutes(event.target.value, this.props.station)}
-      >
-        {this.props.platforms.map(platform => {
-          let abbr = platform.abbr;
-          let name = platform.name;
-          let direction = platform.direction;
-          let routes = platform.routes.join() + ',' + platform.direction;
-          return <option key={abbr} value={routes}>{name}</option>
+        id="selectPlatform"
+        value={this.props.redux.store.platform}
+        onChange={() => {this.props.redux.dispatch.getRoutes(
+          this.props.redux.store.station,
+          document.getElementById("selectPlatform").value
+        )}}>
+        <option key="0" value="0">Select a platform</option>
+        {this.props.redux.store.platforms.map(platform => {
+          return <option key={platform.abbr} value={platform.abbr}>{platform.abbr}</option>
         })}
       </select>
     )
-  }
-}
+  };
 
-export default SelectPlatform;
+}

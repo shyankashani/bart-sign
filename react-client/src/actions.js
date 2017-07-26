@@ -2,17 +2,17 @@ import axios from 'axios';
 
 const actions = {};
 
-actions.fetchStations = () => {
+actions.getStations = () => {
   return dispatch => {
     axios.get(`/stations`)
     .then(result => { dispatch({
-      type: 'FETCH_STATIONS',
+      type: 'GET_STATIONS',
       payload: result.data
     }) })
   }
 }
 
-actions.fetchPlatforms = station => {
+actions.getPlatforms = station => {
   return dispatch => {
     axios.get(`/platforms/${station}`)
     .then(result => {
@@ -21,19 +21,32 @@ actions.fetchPlatforms = station => {
         payload: station
       })
       dispatch({
-        type: 'FETCH_PLATFORMS',
+        type: 'SET_PLATFORM',
+        payload: ''
+      })
+      dispatch({
+        type: 'GET_PLATFORMS',
         payload: result.data
       })
     })
   }
 }
 
-// actions.fetchPlatforms = station => {
-//   return {
-//     type: 'SET_STATION',
-//     payload: station
-//   }
-// }
+actions.getRoutes = (station, platform) => {
+  return dispatch => {
+    axios.get(`/routes/${station}/${platform}`)
+    .then(result => {
+      dispatch({
+        type: 'SET_PLATFORM',
+        payload: platform
+      })
+      dispatch({
+        type: 'GET_ROUTES',
+        payload: result.data
+      })
+    })
+  }
+}
 
 //
 // actions.fetchRoutes = (routes, station) => {
