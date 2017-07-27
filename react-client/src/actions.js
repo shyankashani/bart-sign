@@ -48,15 +48,4 @@ actions.getRoutes = (station, platform) => {
   }
 }
 
-//
-// actions.fetchRoutes = (routes, station) => {
-//   return dispatch => {
-//     axios.get('/routes', { params: { routes: routes, station: station } })
-//     .then(result => { dispatch({
-//       type: 'FETCH_ROUTES',
-//       payload: result.data
-//     }) })
-//   }
-// }
-
 module.exports = actions;
