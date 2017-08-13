@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import actions from './actions.js';
 
 import SelectStation from './components/SelectStation.jsx';
-import SelectPlatform from './components/SelectPlatform.jsx';
+import {SelectPlatform} from './components/SelectPlatform.jsx';
 import Routes from './components/Routes.jsx';
 import ReduxTest from './components/ReduxTest.jsx';
 
@@ -29,13 +29,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>        
         <div>
           <SelectStation redux={this.props} />
-          <SelectPlatform redux={this.props} />
-          <ReduxTest />
+          <Route path='/:stationAbbr' component={SelectPlatform}/>
         </div>
-      </Router>
     )
   }
 
